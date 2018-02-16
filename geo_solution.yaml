@@ -1,35 +1,35 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: geo_solution_back
+  name: geosolutionback
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: geo_solution_back
+        app: geosolutionback
     spec:
       containers:
-      - name: geo_solution_back
+      - name: geosolutionback
         image: sregistry.azurecr.io/mysql_server:1.10
         ports:
         - containerPort: 6379
-          name: mysql_server
+          name: mysql-server
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: geo_solution_back
+  name: geosolutionback
 spec:
   ports:
   - port: 6379
   selector:
-    app: geo_solution_back
+    app: geosolutionback
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: geo_solution_front
+  name: geosolutionfront
 spec:
   replicas: 1
   strategy:
@@ -40,10 +40,10 @@ spec:
   template:
     metadata:
       labels:
-        app: geo_solution_front
+        app: geosolutionfront
     spec:
       containers:
-      - name: geo_solution_front
+      - name: geosolutionfront
         image: sregistry.azurecr.io/geoweb_server:1.10
         ports:
         - containerPort: 80
@@ -56,10 +56,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: geo_solution_front
+  name: geosolutionfront
 spec:
   type: LoadBalancer
   ports:
   - port: 80
   selector:
-    app: geo_solution_front
+    app: geosolutionfront
